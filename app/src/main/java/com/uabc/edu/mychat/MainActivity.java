@@ -39,12 +39,15 @@ public class MainActivity extends AppCompatActivity {
 
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference mDatabaseReference;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mUsername = ANONYMOUS;
+
+        mFirebaseDatabase=FirebaseDatabase.getInstance();
+        mDatabaseReference=mFirebaseDatabase.getReference().child("mensajes");
         // Initialize references to views
         mProgressBar = (ProgressBar) findViewById(R.id.progressBar);
         mMessageListView = (ListView) findViewById(R.id.messageListView);
@@ -96,6 +99,10 @@ public class MainActivity extends AppCompatActivity {
                 // TODO: Send messages on click
 
                 // Clear input box
+                FriendlyMessage friendlyMessage=new FriendlyMessage();
+                friendlyMessage.setName("Rosendo");
+                friendlyMessage.setText(mMessageEditText.getText().toString());
+                mDatabaseReference.push().setValue(friendlyMessage);
                 mMessageEditText.setText("");
             }
         });
